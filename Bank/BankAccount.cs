@@ -11,6 +11,9 @@ namespace BankAccountNS
         private string m_customerName;
         private double m_balance;
         private bool m_frozen = false;
+
+        public const string DebitAmountExceedsBalanceMessage = "Debit amount exceeds balance";
+        public const string DebitAmountLessThanZeroMessage = "Debit amount is less tan zero";
         private BankAccount()
         {
 
@@ -26,7 +29,7 @@ namespace BankAccountNS
         }
         public double Balance
         {
-            get { return Balance; }
+            get { return m_balance; }
         }
 
         public void Debit(double amount)
@@ -34,10 +37,10 @@ namespace BankAccountNS
             if (m_frozen)
                 throw new Exception("Account frozen");
             if (amount > m_balance)
-                throw new ArgumentOutOfRangeException("amount");
+                throw new ArgumentOutOfRangeException("amount",amount, DebitAmountExceedsBalanceMessage);
             if (amount < 0)
-                throw new ArgumentOutOfRangeException("amount");
-            m_balance += amount;
+                throw new ArgumentOutOfRangeException("amount", amount, DebitAmountLessThanZeroMessage);
+            m_balance -= amount;
         }
         public void Credit(double amount)
         {
